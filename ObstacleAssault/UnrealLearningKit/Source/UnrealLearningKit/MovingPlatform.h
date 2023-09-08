@@ -12,14 +12,17 @@ class UNREALLEARNINGKIT_API AMovingPlatform : public AActor
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Movement")
 	FVector TargetPosition;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MovementTime;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Movement")
 	float StopWaitTime = 5.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Rotation")
+	FRotator RotationVelocity;
 
 public:	
 	// Sets default values for this actor's properties
@@ -40,4 +43,8 @@ private:
 	
 	FVector initialPosition;
 	FVector toTarget;
+
+	void MovePlatform(float DeltaTime);
+
+	void RotatePlatform(float DeltaTime);
 };

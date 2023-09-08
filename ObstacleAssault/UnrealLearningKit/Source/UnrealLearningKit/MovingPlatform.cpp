@@ -25,6 +25,12 @@ void AMovingPlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	MovePlatform(DeltaTime);
+	RotatePlatform(DeltaTime);
+}
+
+void AMovingPlatform::MovePlatform(float DeltaTime)
+{
 	if (currentStopWaitTime > 0.0f)
 	{
 		currentStopWaitTime -= DeltaTime;
@@ -44,9 +50,13 @@ void AMovingPlatform::Tick(float DeltaTime)
 		currentStopWaitTime = StopWaitTime;
 	}
 
-	currentMovementTime += (isGoingForward ? DeltaTime : - DeltaTime);
+	currentMovementTime += (isGoingForward ? DeltaTime : -DeltaTime);
 
 	FVector nextLocation = initialPosition + (toTarget * ratio);
 	SetActorLocation(nextLocation);
 }
 
+void AMovingPlatform::RotatePlatform(float DeltaTime)
+{
+	AddActorLocalRotation(DeltaTime * RotationVelocity);
+}

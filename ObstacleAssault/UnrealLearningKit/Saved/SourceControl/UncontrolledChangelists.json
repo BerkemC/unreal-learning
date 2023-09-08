@@ -16,7 +16,12 @@
 				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/SCK_Casual01/Materials/Environment_Materials/MAT_BASIC_FLOOR.uasset",
 				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/SCK_Casual01/Materials/Master_Materials/MAT_A_03.uasset",
 				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/LearningKit_Games/Assets/Props/PuzzlePieces/PuzzleCube_A/Block.uasset",
-				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/ObstacleAssault/Block.uasset"
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/ObstacleAssault/Block.uasset",
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/ObstacleAssault/BP_PushingCube.uasset",
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/ObstacleAssault/BP_EnableTriggerBox.uasset",
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/ObstacleAssault/BP_ObstacleAssaultGameMode.uasset",
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/ObstacleAssault/BP_RotatingPlatform.uasset",
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/ObstacleAssault/BP_RotatingRamp.uasset"
 			]
 		}
 	]
