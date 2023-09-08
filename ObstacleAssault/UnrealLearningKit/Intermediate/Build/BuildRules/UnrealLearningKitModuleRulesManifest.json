@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"C:\\Repositories\\unreal-learning\\ObstacleAssault\\UnrealLearningKit\\Source\\UnrealLearningKit\\UnrealLearningKit.Build.cs",
+		"C:\\Repositories\\unreal-learning\\ObstacleAssault\\UnrealLearningKit\\Source\\UnrealLearningKit.Target.cs",
+		"C:\\Repositories\\unreal-learning\\ObstacleAssault\\UnrealLearningKit\\Source\\UnrealLearningKitEditor.Target.cs"
+	],
+	"EngineVersion": "5.3.0"
+}
