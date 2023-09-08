@@ -8,7 +8,15 @@
 				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/ObstacleAssault/Main.umap",
 				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/LearningKit_Games/Maps/LearningKit_Games_Showcase.umap",
 				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/ObstacleAssault/BP_Character.uasset",
-				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/SCK_Casual01/Blueprints/ThirdPersonCharacter.uasset"
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/SCK_Casual01/Blueprints/ThirdPersonCharacter.uasset",
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/LearningKit_Games/Blueprints/PlayerCharacter/BP_LearningKit_PlayerCharacter.uasset",
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/LearningKit_Games/Blueprints/GameFramework/BP_LearningKitGameMode.uasset",
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/ObstacleAssault/BP_MovingPlatform.uasset",
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/ObstacleAssault/BP_MovingBlock.uasset",
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/SCK_Casual01/Materials/Environment_Materials/MAT_BASIC_FLOOR.uasset",
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/SCK_Casual01/Materials/Master_Materials/MAT_A_03.uasset",
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/LearningKit_Games/Assets/Props/PuzzlePieces/PuzzleCube_A/Block.uasset",
+				"C:/Repositories/unreal-learning/ObstacleAssault/UnrealLearningKit/Content/ObstacleAssault/Block.uasset"
 			]
 		}
 	]

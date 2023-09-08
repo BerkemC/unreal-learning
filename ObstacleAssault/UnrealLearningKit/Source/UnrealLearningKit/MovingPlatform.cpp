@@ -16,6 +16,8 @@ void AMovingPlatform::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	initialPosition = GetActorLocation();
+	toTarget = TargetPosition - GetActorLocation();
 }
 
 // Called every frame
@@ -23,5 +25,28 @@ void AMovingPlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (currentStopWaitTime > 0.0f)
+	{
+		currentStopWaitTime -= DeltaTime;
+		return;
+	}
+
+	float ratio = currentMovementTime / MovementTime;
+
+	if (ratio >= 1.0f)
+	{
+		isGoingForward = false;
+		currentStopWaitTime = StopWaitTime;
+	}
+	else if (ratio <= 0.0f)
+	{
+		isGoingForward = true;
+		currentStopWaitTime = StopWaitTime;
+	}
+
+	currentMovementTime += (isGoingForward ? DeltaTime : - DeltaTime);
+
+	FVector nextLocation = initialPosition + (toTarget * ratio);
+	SetActorLocation(nextLocation);
 }
 
