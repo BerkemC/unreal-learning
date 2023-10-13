@@ -2,16 +2,16 @@
 
 #pragma once
 
+#include <PhysicsEngine/PhysicsHandleComponent.h>
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
 #include "Grabber.generated.h"
-
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class CRYPTRAIDER_API UGrabber : public USceneComponent
 {
 	GENERATED_BODY()
-
+	
 public:	
 	// Sets default values for this component's properties
 	UGrabber();
@@ -24,6 +24,8 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	
+
 	UFUNCTION(BlueprintCallable)
 	void SetGrabbing(bool value);
 
@@ -35,12 +37,18 @@ private:
 	UPROPERTY(EditAnywhere)
 	float GrabRadius = 100;
 
+	UPROPERTY(EditAnywhere)
+	float HoldDistance = 200;
+
 	bool IsGrabbing = false;
 	AActor* GrabbedActor = nullptr;
 
 	UWorld* World;
 
-	void GrabActor(AActor* actor);
+	UPhysicsHandleComponent* Handle;
+
+	void GrabActor(const FHitResult& hitResult);
 	void DropGrabbedActor();
 	void MoveGrabbedActor();
+	void TryGrabActor();
 };

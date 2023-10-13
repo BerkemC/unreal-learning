@@ -20,6 +20,7 @@ void UGrabber::BeginPlay()
 	Super::BeginPlay();
 
 	World = GetWorld();
+	Handle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 }
 
 
@@ -43,29 +44,34 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	}
 	else
 	{
-		FVector location = GetComponentLocation();
-		FVector forward = GetForwardVector();
+		TryGrabActor();
+	}
+}
 
-		FVector end = location + forward * MaxGrabDistance;
+void UGrabber::TryGrabActor()
+{
+	FVector location = GetComponentLocation();
+	FVector forward = GetForwardVector();
 
-		DrawDebugLine(
-			World,
-			location,
-			end,
-			FColor::Red);
+	FVector end = location + forward * MaxGrabDistance;
 
-		FCollisionShape collisionShape = FCollisionShape::MakeSphere(GrabRadius);
-		FHitResult hit;
-		if (World->SweepSingleByChannel(
-			hit,
-			location,
-			end,
-			FQuat::Identity,
-			ECollisionChannel::ECC_GameTraceChannel2,
-			collisionShape))
-		{
-			GrabActor(hit.GetActor());
-		}
+	DrawDebugLine(
+		World,
+		location,
+		end,
+		FColor::Red);
+
+	FCollisionShape collisionShape = FCollisionShape::MakeSphere(GrabRadius);
+	FHitResult hit;
+	if (World->SweepSingleByChannel(
+		hit,
+		location,
+		end,
+		FQuat::Identity,
+		ECollisionChannel::ECC_GameTraceChannel2,
+		collisionShape))
+	{
+		GrabActor(hit);
 	}
 }
 
@@ -85,19 +91,43 @@ void UGrabber::SetGrabbing(bool value)
 	GrabbedActor = nullptr;
 }
 
-void UGrabber::GrabActor(AActor* actor)
+void UGrabber::GrabActor(const FHitResult& hitResult)
 {
 	if (GrabbedActor)
 	{
 		return;
 	}
 
-	GrabbedActor = actor;
+	GrabbedActor = hitResult.GetActor();
+
+	if (!GrabbedActor)
+	{
+		return;
+	}
+
+	GrabbedActor = hitResult.GetActor();
+
+	if (!Handle)
+	{
+		return;
+	}
+
+	UPrimitiveComponent* component = hitResult.GetComponent();
+	Handle->GrabComponentAtLocationWithRotation(
+		component,
+		NAME_None,
+		hitResult.ImpactPoint,
+		GetComponentRotation());
 }
 
 void UGrabber::DropGrabbedActor()
 {
 	GrabbedActor = nullptr;
+
+	if (Handle)
+	{
+		Handle->ReleaseComponent();
+	}
 }
 
 void UGrabber::MoveGrabbedActor()
@@ -105,6 +135,12 @@ void UGrabber::MoveGrabbedActor()
 	FVector location = GetComponentLocation();
 	FVector forward = GetForwardVector();
 
-	FVector end = location + forward * MaxGrabDistance;
-	GrabbedActor->SetActorLocation(end);
+	FVector end = location + forward * HoldDistance;
+
+	if (!Handle)
+	{
+		return;
+	}
+
+	Handle->SetTargetLocationAndRotation(end, GetComponentRotation());
 }
