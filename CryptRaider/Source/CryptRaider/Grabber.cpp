@@ -113,6 +113,7 @@ void UGrabber::GrabActor(const FHitResult& hitResult)
 	}
 
 	UPrimitiveComponent* component = hitResult.GetComponent();
+	component->WakeAllRigidBodies();
 	Handle->GrabComponentAtLocationWithRotation(
 		component,
 		NAME_None,
@@ -124,10 +125,20 @@ void UGrabber::DropGrabbedActor()
 {
 	GrabbedActor = nullptr;
 
-	if (Handle)
+	if (!Handle)
 	{
-		Handle->ReleaseComponent();
+		return;
 	}
+
+	UPrimitiveComponent* component = Handle->GetGrabbedComponent();
+	
+	if (!component)
+	{
+		return;
+	}
+
+	component->WakeAllRigidBodies();
+	Handle->ReleaseComponent();
 }
 
 void UGrabber::MoveGrabbedActor()
