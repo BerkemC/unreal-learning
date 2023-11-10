@@ -17,6 +17,7 @@ public:
 
 protected:
 	void RotateTurret(FVector LookAtTarget);
+	void Fire();
 
 public:
 	UPROPERTY(EditAnywhere, Category = "Turret Settings")

@@ -23,6 +23,15 @@ public:
 	UPROPERTY(EditAnywhere)
 	float TowerAttackRange = 2000.0f;
 
+	UPROPERTY(EditAnywhere)
+	float TowerAttackCooldown = 5.0f;
+
 private:
 	class ATank* Tank;
+
+	bool CanShoot = true;
+	FTimerHandle FireCooldownTimerHandle;
+
+	void FireIfReady();
+	bool InFireRange();
 };
