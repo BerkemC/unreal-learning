@@ -26,4 +26,7 @@ public:
 private:
 	UPROPERTY(EditDefaultsOnly)
 	class UStaticMeshComponent* ProjectileMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UProjectileMovementComponent* ProjectileMovement;
 };
