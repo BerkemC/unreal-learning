@@ -3,11 +3,12 @@
 
 #include "BasePawn.h"
 #include "Components/CapsuleComponent.h"
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 ABasePawn::ABasePawn()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule Collider"));
 	RootComponent = CapsuleComponent;
@@ -22,18 +23,15 @@ ABasePawn::ABasePawn()
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
 }
 
-// Called when the game starts or when spawned
-void ABasePawn::BeginPlay()
+void ABasePawn::RotateTurret(FVector LookAtTarget)
 {
-	Super::BeginPlay();
-	
+	FVector toTarget = LookAtTarget - TurretMesh->GetComponentLocation();
+	FRotator lookAtRotation(0, toTarget.Rotation().Yaw, 0);
+
+	TurretMesh->SetWorldRotation(
+		FMath::RInterpTo(
+			TurretMesh->GetComponentRotation(), 
+			lookAtRotation, 
+			UGameplayStatics::GetWorldDeltaSeconds(this), 
+			TurrentTurnSpeed));
 }
-
-// Called every frame
-void ABasePawn::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
-

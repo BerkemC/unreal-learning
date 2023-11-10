@@ -23,6 +23,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void Tick(float DeltaTime) override;
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* SpringArm;
@@ -30,12 +32,14 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* Camera;
 
-	void Move(float Value);
-	void Turn(float Value);
-
 	UPROPERTY(EditAnywhere, Category = "Tank Movement")
 	float MovementSpeed = 800.f;
 
 	UPROPERTY(EditAnywhere, Category = "Tank Movement")
 	float TurnSpeed = 150.f;
+
+	APlayerController* PlayerControllerRef;
+
+	void Move(float Value);
+	void Turn(float Value);
 };

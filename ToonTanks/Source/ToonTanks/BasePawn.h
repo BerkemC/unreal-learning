@@ -16,12 +16,11 @@ public:
 	ABasePawn();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	void RotateTurret(FVector LookAtTarget);
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+public:
+	UPROPERTY(EditAnywhere, Category = "Turret Settings")
+	float TurrentTurnSpeed = 10.0f;
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
