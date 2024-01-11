@@ -23,6 +23,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Turret Settings")
 	float TurrentTurnSpeed = 10.0f;
 
+	void HandleDestruction();
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UCapsuleComponent* CapsuleComponent;

@@ -47,3 +47,8 @@ void ABasePawn::Fire()
 
 	spawnedObj->SetOwner(this);
 }
+
+void ABasePawn::HandleDestruction()
+{
+	// TODO: Visual/Sound Effects
+}

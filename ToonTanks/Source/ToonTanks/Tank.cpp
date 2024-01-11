@@ -8,7 +8,7 @@
 
 ATank::ATank() : ABasePawn()
 {
-	PlayerControllerRef = nullptr;
+	TankPlayerController = nullptr;
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
 	SpringArm->SetupAttachment(RootComponent);
@@ -27,11 +27,24 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &ATank::Fire);
 }
 
+void ATank::HandleDestruction()
+{
+	Super::HandleDestruction();
+
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
+}
+
+APlayerController* ATank::GetTankPlayerController() const
+{
+	return TankPlayerController;
+}
+
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 
-	PlayerControllerRef = Cast<APlayerController>(GetController());
+	TankPlayerController = Cast<APlayerController>(GetController());
 }
 
 void ATank::Tick(float DeltaTime)
@@ -39,8 +52,8 @@ void ATank::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	FHitResult hit;
-	if (PlayerControllerRef && 
-		PlayerControllerRef->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, hit))
+	if (TankPlayerController && 
+		TankPlayerController->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, hit))
 	{
 		DrawDebugSphere(GetWorld(), hit.ImpactPoint, 10.0f, 12, FColor::Red);
 		RotateTurret(hit.ImpactPoint);

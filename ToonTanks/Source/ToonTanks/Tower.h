@@ -26,6 +26,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	float TowerAttackCooldown = 5.0f;
 
+	void HandleDestruction();
+
 private:
 	class ATank* Tank;
 
