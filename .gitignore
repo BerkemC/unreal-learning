@@ -42,7 +42,7 @@
 *.VC.db
 *.VC.opendb
 *.log
-*.ini
+#*.ini
 *.runtime-xml
 
 # Precompiled Assets
