@@ -4,8 +4,10 @@
 #include "BaseProjectile.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include  "GameFramework/DamageType.h"
+#include "GameFramework/DamageType.h"
+
 
 // Sets default values
 ABaseProjectile::ABaseProjectile()
@@ -19,6 +21,9 @@ ABaseProjectile::ABaseProjectile()
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Movement"));
 	ProjectileMovement->MaxSpeed = 1300.0f;
 	ProjectileMovement->InitialSpeed = 1300.0f;
+
+	TrailParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Trail Particle System"));
+	TrailParticleSystem->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -46,6 +51,7 @@ void ABaseProjectile::OnHit(
 	auto ProjectileOwner = GetOwner();
 	if (!ProjectileOwner || !OtherActor || OtherActor == this || OtherActor == ProjectileOwner)
 	{
+		Destroy();
 		return;
 	}
 
@@ -55,6 +61,15 @@ void ABaseProjectile::OnHit(
 		ProjectileOwner->GetInstigatorController(),
 		this, 
 		UDamageType::StaticClass());
+
+	if (HitParticles)
+	{
+		UGameplayStatics::SpawnEmitterAtLocation(
+			this,
+			HitParticles,
+			GetActorLocation(),
+			GetActorRotation());
+	}
 
 	Destroy();
 }

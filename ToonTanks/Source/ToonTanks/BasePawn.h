@@ -40,4 +40,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class ABaseProjectile> ProjectileClass;
+
+	UPROPERTY(EditAnywhere, Category = "Death")
+	class UParticleSystem* DeathParticle;
 };
