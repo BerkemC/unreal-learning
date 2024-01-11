@@ -45,5 +45,8 @@ void ATower::FireIfReady()
 
 bool ATower::InFireRange()
 {
-	return  Tank && FVector::Dist(GetActorLocation(), Tank->GetActorLocation()) <= TowerAttackRange;
+	return  
+		Tank && 
+		Tank->IsTankAlive() && 
+		FVector::Dist(GetActorLocation(), Tank->GetActorLocation()) <= TowerAttackRange;
 }

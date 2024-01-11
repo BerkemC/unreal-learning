@@ -24,6 +24,8 @@ public:
 
 	APlayerController* GetTankPlayerController() const;
 
+	bool IsTankAlive();
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -41,6 +43,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Tank Movement")
 	float TurnSpeed = 150.f;
+
+	bool IsAlive = true;
 
 	APlayerController* TankPlayerController;
 

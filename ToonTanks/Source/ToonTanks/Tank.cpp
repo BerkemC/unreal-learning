@@ -33,6 +33,7 @@ void ATank::HandleDestruction()
 
 	SetActorHiddenInGame(true);
 	SetActorTickEnabled(false);
+	IsAlive = false;
 }
 
 APlayerController* ATank::GetTankPlayerController() const
@@ -40,11 +41,17 @@ APlayerController* ATank::GetTankPlayerController() const
 	return TankPlayerController;
 }
 
+bool ATank::IsTankAlive()
+{
+	return IsAlive;
+}
+
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 
 	TankPlayerController = Cast<APlayerController>(GetController());
+	IsAlive = true;
 }
 
 void ATank::Tick(float DeltaTime)
