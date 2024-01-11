@@ -44,4 +44,6 @@ void ABasePawn::Fire()
 			ProjectileClass, 
 			ProjectileSpawnPoint->GetComponentLocation(), 
 			ProjectileSpawnPoint->GetComponentRotation());
+
+	spawnedObj->SetOwner(this);
 }
