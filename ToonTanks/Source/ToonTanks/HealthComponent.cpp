@@ -50,6 +50,4 @@ void UHealthComponent::DamageTaken(
 	{
 		ToonTankGameMode->ActorDied(DamagedActor);
 	}
-
-	UE_LOG(LogTemp, Warning, TEXT("On Damage Taken %f"), CurrentHealth);
 }
