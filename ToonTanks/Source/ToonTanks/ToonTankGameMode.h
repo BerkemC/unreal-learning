@@ -24,6 +24,11 @@ protected:
 
 private:
 
+	UPROPERTY(EditAnywhere)
+	float StartDelay = 3.0f;
+
 	class ATank* Tank;
 	class AToonTankPlayerController* ToonTankPlayerController;
+
+	void HandleGameStart();
 };
