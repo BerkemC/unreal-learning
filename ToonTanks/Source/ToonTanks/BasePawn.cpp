@@ -66,4 +66,9 @@ void ABasePawn::HandleDestruction()
 			DeathSound,
 			GetActorLocation());
 	}
+
+	if (DeathCameraShake)
+	{
+		GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(DeathCameraShake);
+	}
 }

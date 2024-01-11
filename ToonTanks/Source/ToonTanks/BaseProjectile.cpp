@@ -87,5 +87,10 @@ void ABaseProjectile::OnHit(
 			GetActorLocation());
 	}
 
+	if (HitCameraShake)
+	{
+		GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(HitCameraShake);
+	}
+
 	Destroy();
 }
