@@ -32,6 +32,12 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float RotationRate = 40;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class AGun> GunClass;
+
+	UPROPERTY()
+	AGun* Gun;
+
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 	void LookUp(float AxisValue);
