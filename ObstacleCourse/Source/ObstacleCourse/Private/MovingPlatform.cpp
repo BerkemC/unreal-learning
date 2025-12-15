@@ -21,7 +21,7 @@ void AMovingPlatform::BeginPlay()
 	SetShouldMove(IsMovingPlatform);
 	SetShouldRotate(RotationType != EPlatformRotationType::None);
 
-	TargetRotation.Add(RotationOffset.X, RotationOffset.Y, RotationOffset.Z);
+	UpdateTargetRotation();
 }
 
 void AMovingPlatform::OnReachedAMovementEnd(float TargetMovementIncrement)
@@ -30,11 +30,6 @@ void AMovingPlatform::OnReachedAMovementEnd(float TargetMovementIncrement)
 	CurrentMovementWaitDuration = WaitDurationOnMovementEnds;
 }
 
-bool AMovingPlatform::ShouldWaitForMovement(const float DeltaTime)
-{
-	CurrentMovementWaitDuration -= DeltaTime;
-	return CurrentMovementWaitDuration > 0.0f;
-}
 
 void AMovingPlatform::UpdateMovement(const float DeltaTime)
 {
@@ -63,7 +58,7 @@ void AMovingPlatform::UpdateMovement(const float DeltaTime)
 
 void AMovingPlatform::UpdateRotation(const float DeltaTime)
 {
-	if(!ShouldRotate)
+	if(!ShouldRotate || ShouldWaitForRotation(DeltaTime))
 	{
 		return;
 	}
@@ -72,6 +67,7 @@ void AMovingPlatform::UpdateRotation(const float DeltaTime)
 	{
 	case EPlatformRotationType::Continuous:	OnContinuousRotation(DeltaTime); break;
 	case EPlatformRotationType::ContinuousWithStops: OnContinuousRotationWithStops(DeltaTime); break;
+	case EPlatformRotationType::ToTargetAndBack: OnToTargetAndBackRotation(DeltaTime); break;
 	default: break;
 	}
 
@@ -80,38 +76,52 @@ void AMovingPlatform::UpdateRotation(const float DeltaTime)
 
 void AMovingPlatform::OnContinuousRotation(const float DeltaTime)
 {
-	const FVector RotationAmount = RotationOffset * RotationDurationOrSpeed * DeltaTime;
+	const FVector RotationAmount = RotationOffset * RotationDurationOrSpeed * RotationIncrement * DeltaTime;
 	Rotator.Add(RotationAmount.X, RotationAmount.Y, RotationAmount.Z);
 }
 
 void AMovingPlatform::OnContinuousRotationWithStops(const float DeltaTime)
 {
-	if(ShouldWaitForRotation(DeltaTime))
-	{
-		return;
-	}
-	
 	OnContinuousRotation(DeltaTime);
     
 	if(Rotator.EqualsOrientation(TargetRotation, .01))
 	{
 		CurrentRotationWaitDuration = WaitDurationOnRotationStops;
-		TargetRotation.Add(RotationOffset.X, RotationOffset.Y, RotationOffset.Z);
+		UpdateTargetRotation();
 	}
 }
+
+void AMovingPlatform::OnToTargetAndBackRotation(const float DeltaTime)
+{
+	OnContinuousRotation(DeltaTime);
+	
+	if(Rotator.EqualsOrientation(TargetRotation, .01))
+	{
+		CurrentRotationWaitDuration = WaitDurationOnRotationStops;
+		RotationIncrement *= -1.0f;
+		UpdateTargetRotation(RotationIncrement);
+	}
+}
+
+void AMovingPlatform::UpdateTargetRotation(const float OffsetModification)
+{
+	TargetRotation.Add(
+			RotationOffset.X * OffsetModification,
+			RotationOffset.Y * OffsetModification,
+			RotationOffset.Z * OffsetModification);
+}
+
+bool AMovingPlatform::ShouldWaitForMovement(const float DeltaTime)
+{
+	CurrentMovementWaitDuration -= DeltaTime;
+	return CurrentMovementWaitDuration > 0.0f;
+}
+
 
 bool AMovingPlatform::ShouldWaitForRotation(const float DeltaTime)
 {
 	CurrentRotationWaitDuration -= DeltaTime;
 	return CurrentRotationWaitDuration > 0.0f;
-}
-
-void AMovingPlatform::Tick(const float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-	UpdateMovement(DeltaTime);
-	UpdateRotation(DeltaTime);
 }
 
 void AMovingPlatform::SetShouldMove(const bool bShouldMove)
@@ -124,3 +134,10 @@ void AMovingPlatform::SetShouldRotate(bool bShouldRotate)
 	ShouldRotate = bShouldRotate;
 }
 
+void AMovingPlatform::Tick(const float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	UpdateMovement(DeltaTime);
+	UpdateRotation(DeltaTime);
+}

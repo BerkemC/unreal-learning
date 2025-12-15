@@ -59,6 +59,8 @@ protected:
 	void UpdateRotation(float DeltaTime);
 	void OnContinuousRotation(float DeltaTime);
 	void OnContinuousRotationWithStops(float DeltaTime);
+	void OnToTargetAndBackRotation(float DeltaTime);
+	void UpdateTargetRotation(float OffsetModification = 1.0f);
 
 	bool ShouldWaitForRotation(float DeltaTime);
 	
