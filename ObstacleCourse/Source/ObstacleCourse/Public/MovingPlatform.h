@@ -58,14 +58,20 @@ protected:
 
 	void UpdateRotation(float DeltaTime);
 	void OnContinuousRotation(float DeltaTime);
+	void OnContinuousRotationWithStops(float DeltaTime);
+
+	bool ShouldWaitForRotation(float DeltaTime);
 	
 private:
 	FVector InitialLocation = FVector(0, 0, 0);
+	FRotator InitialRotation = FRotator::ZeroRotator;
+	FRotator TargetRotation = FRotator::ZeroRotator;
 
 	float CurrentMovementTimer = 0.0f;
 	float MovementIncrement = 1.0f;
 	float CurrentMovementWaitDuration = 0.0f;
 	float CurrentRotationWaitDuration = 0.0f;
+	float RotationIncrement = 1.0f;
 
 	bool ShouldMove = false;
 	bool ShouldRotate = false;
