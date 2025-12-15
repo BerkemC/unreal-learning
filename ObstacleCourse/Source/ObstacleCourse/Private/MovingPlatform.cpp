@@ -18,11 +18,24 @@ void AMovingPlatform::BeginPlay()
 	InitialLocation = GetActorLocation();
 
 	SetShouldMove(IsMovingPlatform);
+	SetShouldRotate(RotationType != EPlatformRotationType::None);
+}
+
+void AMovingPlatform::OnReachedAMovementEnd(float TargetMovementIncrement)
+{
+	MovementIncrement = TargetMovementIncrement;
+	CurrentMovementWaitDuration = WaitDurationOnMovementEnds;
+}
+
+bool AMovingPlatform::ShouldWaitForMovement(const float DeltaTime)
+{
+	CurrentMovementWaitDuration -= DeltaTime;
+	return CurrentMovementWaitDuration > 0.0f;
 }
 
 void AMovingPlatform::UpdateMovement(const float DeltaTime)
 {
-	if(!ShouldMove || !IsMovingPlatform)
+	if(!ShouldMove || !IsMovingPlatform || ShouldWaitForMovement(DeltaTime))
 	{
 		return;
 	}
@@ -31,30 +44,57 @@ void AMovingPlatform::UpdateMovement(const float DeltaTime)
 
 	if(CurrentMovementTimer > MoveDuration)
 	{
-		MovementIncrement = -1.0f;
+		OnReachedAMovementEnd(-1.0f);
 	}
 	else if(CurrentMovementTimer < 0.0f)
 	{
-		MovementIncrement = 1.0f;
+		OnReachedAMovementEnd(1.0f);
 	}
 	
 	const float CurrentRatio = CurrentMovementTimer / MoveDuration;
 	const FVector TargetLocation
 			= FMath::Lerp(InitialLocation, InitialLocation + TargetMovementOffset, CurrentRatio);
 
-	SetActorLocation(TargetLocation);
+	SetActorLocation(TargetLocation, true);
 }
 
-// Called every frame
+void AMovingPlatform::UpdateRotation(const float DeltaTime)
+{
+	if(!ShouldRotate)
+	{
+		return;
+	}
+	
+	switch(RotationType)
+	{
+	case EPlatformRotationType::Continuous:	OnContinuousRotation(DeltaTime); break;
+	default: break;
+	}
+
+	SetActorRotation(Rotator);
+}
+
+void AMovingPlatform::OnContinuousRotation(const float DeltaTime)
+{
+	const FVector RotationAmount = RotationOffset * RotationDurationOrSpeed * DeltaTime;
+	Rotator.Add(RotationAmount.X, RotationAmount.Y, RotationAmount.Z);
+}
+
 void AMovingPlatform::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 	UpdateMovement(DeltaTime);
+	UpdateRotation(DeltaTime);
 }
 
 void AMovingPlatform::SetShouldMove(const bool bShouldMove)
 {
 	ShouldMove = bShouldMove;
+}
+
+void AMovingPlatform::SetShouldRotate(bool bShouldRotate)
+{
+	ShouldRotate = bShouldRotate;
 }
 
