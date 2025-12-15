@@ -34,7 +34,7 @@ public:
 	float WaitDurationOnMovementEnds = 0.0f;
 
 	UPROPERTY(EditAnywhere)
-	TEnumAsByte<EPlatformRotationType> RotationType = EPlatformRotationType::Continuous;
+	TEnumAsByte<EPlatformRotationType> RotationType = EPlatformRotationType::None;
 	
 	UPROPERTY(EditAnywhere)
 	FVector RotationOffset = FVector(0, 0, 0);
