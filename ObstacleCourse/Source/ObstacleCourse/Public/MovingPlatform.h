@@ -37,7 +37,7 @@ public:
 	TEnumAsByte<EPlatformRotationType> RotationType = EPlatformRotationType::None;
 	
 	UPROPERTY(EditAnywhere)
-	FVector RotationOffset = FVector(0, 0, 0);
+	FRotator RotationOffset = FRotator(0, 0, 0);
 
 	UPROPERTY(EditAnywhere)
 	float RotationDurationOrSpeed = 0.0f;
@@ -66,7 +66,6 @@ protected:
 	
 private:
 	FVector InitialLocation = FVector(0, 0, 0);
-	FRotator InitialRotation = FRotator::ZeroRotator;
 	FRotator TargetRotation = FRotator::ZeroRotator;
 
 	float CurrentMovementTimer = 0.0f;
@@ -77,8 +76,6 @@ private:
 
 	bool ShouldMove = false;
 	bool ShouldRotate = false;
-
-	FRotator Rotator = FRotator::ZeroRotator;
 	
 public:	
 	// Called every frame

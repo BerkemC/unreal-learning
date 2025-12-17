@@ -16,20 +16,19 @@ void AMovingPlatform::BeginPlay()
 	Super::BeginPlay();
 	
 	InitialLocation = GetActorLocation();
-	InitialRotation = GetActorRotation();
-
+	TargetRotation = GetActorRotation();
+	
 	SetShouldMove(IsMovingPlatform);
 	SetShouldRotate(RotationType != EPlatformRotationType::None);
 
 	UpdateTargetRotation();
 }
 
-void AMovingPlatform::OnReachedAMovementEnd(float TargetMovementIncrement)
+void AMovingPlatform::OnReachedAMovementEnd(const float TargetMovementIncrement)
 {
 	MovementIncrement = TargetMovementIncrement;
 	CurrentMovementWaitDuration = WaitDurationOnMovementEnds;
 }
-
 
 void AMovingPlatform::UpdateMovement(const float DeltaTime)
 {
@@ -65,29 +64,27 @@ void AMovingPlatform::UpdateRotation(const float DeltaTime)
 	
 	switch(RotationType)
 	{
-	case EPlatformRotationType::Continuous:	OnContinuousRotation(DeltaTime); break;
-	case EPlatformRotationType::ContinuousWithStops: OnContinuousRotationWithStops(DeltaTime); break;
-	case EPlatformRotationType::ToTargetAndBack: OnToTargetAndBackRotation(DeltaTime); break;
+	case Continuous:	OnContinuousRotation(DeltaTime); break;
+	case ContinuousWithStops: OnContinuousRotationWithStops(DeltaTime); break;
+	case ToTargetAndBack: OnToTargetAndBackRotation(DeltaTime); break;
 	default: break;
 	}
-
-	SetActorRotation(Rotator);
 }
 
 void AMovingPlatform::OnContinuousRotation(const float DeltaTime)
 {
-	const FVector RotationAmount = RotationOffset * RotationDurationOrSpeed * RotationIncrement * DeltaTime;
-	Rotator.Add(RotationAmount.X, RotationAmount.Y, RotationAmount.Z);
+	AddActorLocalRotation(RotationOffset * DeltaTime * RotationIncrement);
 }
 
 void AMovingPlatform::OnContinuousRotationWithStops(const float DeltaTime)
 {
 	OnContinuousRotation(DeltaTime);
     
-	if(Rotator.EqualsOrientation(TargetRotation, .01))
+	if(GetRootComponent()->GetRelativeRotation().EqualsOrientation(TargetRotation, .1))
 	{
 		CurrentRotationWaitDuration = WaitDurationOnRotationStops;
-		UpdateTargetRotation();
+		RotationIncrement = 1.0f;
+		UpdateTargetRotation(RotationIncrement);
 	}
 }
 
@@ -95,7 +92,7 @@ void AMovingPlatform::OnToTargetAndBackRotation(const float DeltaTime)
 {
 	OnContinuousRotation(DeltaTime);
 	
-	if(Rotator.EqualsOrientation(TargetRotation, .01))
+	if(GetRootComponent()->GetRelativeRotation().EqualsOrientation(TargetRotation, .1))
 	{
 		CurrentRotationWaitDuration = WaitDurationOnRotationStops;
 		RotationIncrement *= -1.0f;
@@ -106,9 +103,9 @@ void AMovingPlatform::OnToTargetAndBackRotation(const float DeltaTime)
 void AMovingPlatform::UpdateTargetRotation(const float OffsetModification)
 {
 	TargetRotation.Add(
-			RotationOffset.X * OffsetModification,
-			RotationOffset.Y * OffsetModification,
-			RotationOffset.Z * OffsetModification);
+			RotationOffset.Pitch * OffsetModification,
+			RotationOffset.Yaw * OffsetModification,
+			RotationOffset.Roll * OffsetModification);
 }
 
 bool AMovingPlatform::ShouldWaitForMovement(const float DeltaTime)
