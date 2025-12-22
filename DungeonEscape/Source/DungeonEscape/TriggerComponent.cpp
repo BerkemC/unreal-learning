@@ -39,6 +39,11 @@ void UTriggerComponent::OnOverlapBegin(
         bool bFromSweep,
         const FHitResult& SweepResult)
 {
+    if((++OverlappingActorCount) > 1)
+    {
+        return;
+    }
+    
     SetMoverStateForPressurePlate(true, OtherActor);
 }
 
@@ -48,6 +53,11 @@ void UTriggerComponent::OnOverlapEnd(
         UPrimitiveComponent* OtherComp,
         int32 OtherBodyIndex)
 {
+    if((--OverlappingActorCount) != 0)
+    {
+        return;
+    }
+    
     SetMoverStateForPressurePlate(false, OtherActor);
 }
 

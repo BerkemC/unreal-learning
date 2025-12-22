@@ -41,7 +41,10 @@ public:
 		FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
+	UPROPERTY()
 	UMoverComponent* MoverComponent = nullptr;
+
+	int32 OverlappingActorCount = 0;
 	
 	void SetTrigger(bool State);
 	void SetMoverStateForPressurePlate(bool TargetState, const AActor* OtherActor);
