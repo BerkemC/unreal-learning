@@ -39,12 +39,7 @@ void UTriggerComponent::OnOverlapBegin(
         bool bFromSweep,
         const FHitResult& SweepResult)
 {
-    if(!OtherActor || !OtherActor->ActorHasTag(RequiredPressurePlateTag))
-    {
-        return;
-    }
-    
-    SetMoverState(true);
+    SetMoverStateForPressurePlate(true, OtherActor);
 }
 
 void UTriggerComponent::OnOverlapEnd(
@@ -53,12 +48,17 @@ void UTriggerComponent::OnOverlapEnd(
         UPrimitiveComponent* OtherComp,
         int32 OtherBodyIndex)
 {
+    SetMoverStateForPressurePlate(false, OtherActor);
+}
+
+void UTriggerComponent::SetMoverStateForPressurePlate(const bool TargetState, const AActor* OtherActor)
+{
     if(!OtherActor || !OtherActor->ActorHasTag(RequiredPressurePlateTag))
     {
         return;
     }
     
-    SetMoverState(false);
+    SetMoverState(TargetState);
 }
 
 void UTriggerComponent::SetMoverState(const bool State)

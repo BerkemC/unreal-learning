@@ -44,7 +44,8 @@ private:
 	UMoverComponent* MoverComponent = nullptr;
 	
 	void SetMoverState(bool State);
-
+	void SetMoverStateForPressurePlate(bool TargetState, const AActor* OtherActor);
+	
 	UFUNCTION()
 	void OnOverlapBegin(
 		UPrimitiveComponent* OverlappedComp,
@@ -53,7 +54,7 @@ private:
 		int32 OtherBodyIndex,
 		bool bFromSweep,
 		const FHitResult& SweepResult);
-
+	
 	UFUNCTION()
 	void OnOverlapEnd(
 		UPrimitiveComponent* OverlappedComp,
