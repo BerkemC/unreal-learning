@@ -20,9 +20,6 @@ public:
 	UPROPERTY(EditAnywhere)
 	float MovementTime = 5.0f;
 
-	UPROPERTY(EditAnywhere)
-	bool ShouldMove = false;
-	
 	// Sets default values for this component's properties
 	UMoverComponent();
 
@@ -39,12 +36,15 @@ public:
 
 	void MoveToStartLocation();
 	void MoveToOffsetLocation();
+	void SetShouldMove(bool NewState);
 
 private:
 	FVector StartLocation = FVector::ZeroVector;
 	FVector TargetLocation = FVector::ZeroVector;
 
 	AActor* MovedActor = nullptr;
+
+	bool ShouldMove = false;
 
 	void SetTargetLocation(const FVector& NewTargetLocation);
 };
