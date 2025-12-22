@@ -39,7 +39,7 @@ void UTriggerComponent::OnOverlapBegin(
         bool bFromSweep,
         const FHitResult& SweepResult)
 {
-    if(!OtherActor->ActorHasTag(RequiredPressurePlateTag))
+    if(!OtherActor || !OtherActor->ActorHasTag(RequiredPressurePlateTag))
     {
         return;
     }
@@ -53,7 +53,7 @@ void UTriggerComponent::OnOverlapEnd(
         UPrimitiveComponent* OtherComp,
         int32 OtherBodyIndex)
 {
-    if(!OtherActor->ActorHasTag(RequiredPressurePlateTag))
+    if(!OtherActor || !OtherActor->ActorHasTag(RequiredPressurePlateTag))
     {
         return;
     }
