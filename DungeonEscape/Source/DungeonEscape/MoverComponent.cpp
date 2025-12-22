@@ -24,11 +24,6 @@ void UMoverComponent::BeginPlay()
 	if(MovedActor)
 	{
 		StartLocation = MovedActor->GetActorLocation();
-
-		if(ShouldMove)
-		{
-			MoveToOffsetLocation();
-		}
 	}
 }
 
@@ -43,36 +38,15 @@ void UMoverComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 		return;
 	}
 
-	TargetLocation = ShouldMove ? StartLocation + MovementOffset : StartLocation;
-
 	MovedActor->SetActorLocation(
 		FMath::VInterpConstantTo(
 			MovedActor->GetActorLocation(),
-			TargetLocation, 
+			ShouldMove ? StartLocation + MovementOffset : StartLocation, 
 			DeltaTime,
-			MovementOffset.Length() / MovementTime));
-}
-
-void UMoverComponent::MoveToStartLocation()
-{
-	SetTargetLocation(StartLocation);
-}
-
-void UMoverComponent::MoveToOffsetLocation()
-{
-	SetTargetLocation(StartLocation + MovementOffset);
+			static_cast<float>(MovementOffset.Length()) / MovementTime));
 }
 
 void UMoverComponent::SetShouldMove(const bool NewState)
 {
 	ShouldMove = NewState;
 }
-
-void UMoverComponent::SetTargetLocation(const FVector& NewTargetLocation)
-{
-	TargetLocation = NewTargetLocation;
-	ShouldMove = true;
-}
-
-
-

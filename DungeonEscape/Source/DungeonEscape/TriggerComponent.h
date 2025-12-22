@@ -43,7 +43,7 @@ public:
 private:
 	UMoverComponent* MoverComponent = nullptr;
 	
-	void SetMoverState(bool State);
+	void SetTrigger(bool State);
 	void SetMoverStateForPressurePlate(bool TargetState, const AActor* OtherActor);
 	
 	UFUNCTION()

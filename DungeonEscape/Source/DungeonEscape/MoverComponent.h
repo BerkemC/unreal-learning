@@ -34,17 +34,13 @@ public:
 		ELevelTick TickType,
 		FActorComponentTickFunction* ThisTickFunction) override;
 
-	void MoveToStartLocation();
-	void MoveToOffsetLocation();
 	void SetShouldMove(bool NewState);
 
 private:
 	FVector StartLocation = FVector::ZeroVector;
-	FVector TargetLocation = FVector::ZeroVector;
 
+	UPROPERTY()
 	AActor* MovedActor = nullptr;
 
 	bool ShouldMove = false;
-
-	void SetTargetLocation(const FVector& NewTargetLocation);
 };

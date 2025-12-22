@@ -58,10 +58,10 @@ void UTriggerComponent::SetMoverStateForPressurePlate(const bool TargetState, co
         return;
     }
     
-    SetMoverState(TargetState);
+    SetTrigger(TargetState);
 }
 
-void UTriggerComponent::SetMoverState(const bool State)
+void UTriggerComponent::SetTrigger(const bool State)
 {
     if(!MoverComponent)
     {
