@@ -17,6 +17,16 @@ ACollectableItem::ACollectableItem()
 	}
 }
 
+FName ACollectableItem::Collect() const
+{
+	if(UStaticMeshComponent* Mesh = GetComponentByClass<UStaticMeshComponent>())
+	{
+		Mesh->SetVisibility(false);
+	}
+	
+	return ItemName;
+}
+
 // Called when the game starts or when spawned
 void ACollectableItem::BeginPlay()
 {
