@@ -61,3 +61,9 @@ bool ALock::GetIsKeyPlaced() const
 	return IsKeyPlaced;
 }
 
+FName ALock::Collect()
+{
+	SetIsKeyPlaced(false);
+	return KeyItemName;
+}
+

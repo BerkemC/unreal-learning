@@ -42,6 +42,8 @@ public:
 	void SetIsKeyPlaced(bool bIsKeyPlaced);
 	bool GetIsKeyPlaced() const;
 
+	FName Collect();
+
 private:
 
 	UPROPERTY(VisibleAnywhere)
