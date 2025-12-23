@@ -19,11 +19,6 @@ ACollectableItem::ACollectableItem()
 
 FName ACollectableItem::Collect() const
 {
-	if(UStaticMeshComponent* Mesh = GetComponentByClass<UStaticMeshComponent>())
-	{
-		Mesh->SetVisibility(false);
-	}
-	
 	return ItemName;
 }
 
