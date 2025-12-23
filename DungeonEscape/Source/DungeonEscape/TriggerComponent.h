@@ -40,13 +40,14 @@ public:
 		ELevelTick TickType,
 		FActorComponentTickFunction* ThisTickFunction) override;
 
+	void SetTrigger(bool State);
+	
 private:
 	UPROPERTY()
 	UMoverComponent* MoverComponent = nullptr;
 
 	int32 OverlappingActorCount = 0;
 	
-	void SetTrigger(bool State);
 	void SetMoverStateForPressurePlate(bool TargetState, const AActor* OtherActor);
 	
 	UFUNCTION()
