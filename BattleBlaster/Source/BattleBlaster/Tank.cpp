@@ -5,6 +5,8 @@
 
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
 
 ATank::ATank() : ABasePawn()
 {
@@ -19,7 +21,18 @@ ATank::ATank() : ABasePawn()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if(const APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	{
+		if(const ULocalPlayer* LocalPlayer = PlayerController->GetLocalPlayer())
+		{
+			if(UEnhancedInputLocalPlayerSubsystem* Subsystem
+				= ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer))
+			{
+				Subsystem->AddMappingContext(DefaultMappingContext, 0);
+			}
+		}
+	}
 }
 
 // Called every frame
@@ -34,4 +47,25 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	if(UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATank::MoveInput);
+		EnhancedInputComponent->BindAction(RotateAction, ETriggerEvent::Triggered, this, &ATank::RotateInput);
+	}
+}
+
+void ATank::MoveInput(const FInputActionValue& InputValue)
+{
+	const float Value = InputValue.Get<float>();
+	AddActorLocalOffset(
+	FVector::XAxisVector * Value * MovementSpeed * GetWorld()->DeltaTimeSeconds, true);
+}
+
+void ATank::RotateInput(const FInputActionValue& InputValue)
+{
+	const float Value = InputValue.Get<float>();
+	const FVector DeltaRotationVector = FVector::YAxisVector * Value * RotationSpeed * GetWorld()->DeltaTimeSeconds;
+	AddActorLocalRotation(
+		FRotator(DeltaRotationVector.X, DeltaRotationVector.Y, DeltaRotationVector.Z),
+		true);
 }

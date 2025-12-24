@@ -8,6 +8,9 @@
 
 class UCameraComponent;
 class USpringArmComponent;
+class UInputMappingContext;
+class UInputAction;
+struct FInputActionValue;
 
 /**
  * 
@@ -18,14 +21,31 @@ class BATTLEBLASTER_API ATank : public ABasePawn
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputMappingContext* DefaultMappingContext;
 
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* MoveAction;
+	
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* RotateAction;
+	
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComponent;
 
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComponent;
 
+	UPROPERTY(EditAnywhere)
+	float MovementSpeed = 300.0f;
+
+	UPROPERTY(EditAnywhere)
+	float RotationSpeed = 300.0f;
+	
 	ATank();
+
+	void MoveInput(const FInputActionValue& InputValue);
+	void RotateInput(const FInputActionValue& InputValue);
 	
 protected:
 	// Called when the game starts or when spawned
