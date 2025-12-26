@@ -21,6 +21,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	UProjectileMovementComponent* MovementComponent;
+
+	UPROPERTY(EditAnywhere)
+	float Damage = 25.0f;
 	
 	// Sets default values for this actor's properties
 	AProjectile();

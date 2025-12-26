@@ -36,4 +36,6 @@ public:
 
 	void CheckFireCondition();
 	bool IsPlayerPawnInRange() const;
+
+	virtual void HandleDestruction() override;
 };

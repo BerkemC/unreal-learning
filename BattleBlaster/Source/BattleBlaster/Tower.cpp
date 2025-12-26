@@ -35,5 +35,12 @@ void ATower::CheckFireCondition()
 
 bool ATower::IsPlayerPawnInRange() const
 {
-	return Tank && FVector::Distance(GetActorLocation(), Tank->GetActorLocation()) <= FireRange;
+	return Tank && !Tank->IsDead() && FVector::Distance(GetActorLocation(), Tank->GetActorLocation()) <= FireRange;
+}
+
+void ATower::HandleDestruction()
+{
+	Super::HandleDestruction();
+
+	Destroy();
 }

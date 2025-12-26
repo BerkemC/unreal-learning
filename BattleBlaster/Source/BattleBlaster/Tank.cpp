@@ -22,7 +22,8 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if(const APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	PlayerController = Cast<APlayerController>(Controller);
+	if(PlayerController)
 	{
 		if(const ULocalPlayer* LocalPlayer = PlayerController->GetLocalPlayer())
 		{
@@ -40,7 +41,7 @@ void ATank::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(const APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	if(PlayerController)
 	{
 		FHitResult LineTraceHit;
 		PlayerController->GetHitResultUnderCursor(ECC_Visibility, false, LineTraceHit);
@@ -59,6 +60,39 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		EnhancedInputComponent->BindAction(RotateAction, ETriggerEvent::Triggered, this, &ATank::RotateInput);
 		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Started, this, &ATank::Fire);
 	}
+}
+
+void ATank::HandleDestruction()
+{
+	Super::HandleDestruction();
+
+	IsAlive = false;
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
+	SetPlayerEnabled(false);
+}
+
+void ATank::SetPlayerEnabled(const bool Enabled)
+{
+	if(!PlayerController)
+	{
+		return;
+	}
+
+	if(Enabled)
+	{
+		EnableInput(PlayerController);
+	}
+	else
+	{
+		DisableInput(PlayerController);
+		PlayerController->bShowMouseCursor = false;
+	}
+}
+
+bool ATank::IsDead() const
+{
+	return !IsAlive;
 }
 
 void ATank::MoveInput(const FInputActionValue& InputValue)

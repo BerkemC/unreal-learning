@@ -7,6 +7,7 @@
 #include "Projectile.h"
 #include "BasePawn.generated.h"
 
+class UHealth;
 class UCapsuleComponent;
 class UStaticMeshComponent;
 
@@ -31,6 +32,9 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* ProjectileSpawnLocation;
 
+	UPROPERTY(VisibleAnywhere)
+	UHealth* HealthComponent;
+
 	UPROPERTY(EditAnywhere)
 	float TurretRotationSpeed = 10.0f;
 
@@ -40,4 +44,6 @@ public:
 	void RotateTurret (const FVector& LookAtTarget) const;
 
 	void Fire();
+
+	virtual void HandleDestruction();
 };

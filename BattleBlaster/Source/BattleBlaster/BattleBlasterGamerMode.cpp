@@ -31,3 +31,55 @@ void ABattleBlasterGamerMode::BeginPlay()
 		}
 	}
 }
+
+void ABattleBlasterGamerMode::ActorDied(AActor* DeadActor)
+{
+	if(!DeadActor)
+	{
+		return;
+	}
+
+	bool IsGameOver = false;
+	bool IsVictory = false;
+	
+	if(DeadActor == Tank)
+	{
+		Tank->HandleDestruction();
+		IsGameOver = true;
+	}
+	else
+	{
+		if(ATower* DeadTower = Cast<ATower>(DeadActor))
+		{
+			DeadTower->HandleDestruction();
+			IsVictory = --TowerCount <= 0;
+			IsGameOver |= IsVictory;
+		}
+	}
+
+	if(IsGameOver)
+	{
+		if(IsVictory)
+		{
+			
+		}
+		else
+		{
+		
+		}
+		
+		FTimerHandle GameOverTimer;
+		GetWorldTimerManager().SetTimer(
+			GameOverTimer,
+			this,
+			&ABattleBlasterGamerMode::OnGameOverTimerTimeout,
+			GameOverDelay, 
+			false);
+	}
+}
+
+void ABattleBlasterGamerMode::OnGameOverTimerTimeout()
+{
+	const FName CurrentLevelName = *UGameplayStatics::GetCurrentLevelName(GetWorld());
+	UGameplayStatics::OpenLevel(GetWorld(), CurrentLevelName);
+}

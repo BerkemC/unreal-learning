@@ -3,6 +3,7 @@
 
 #include "BasePawn.h"
 
+#include "Health.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
 
@@ -16,7 +17,8 @@ ABasePawn::ABasePawn()
 	TurretMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Turret Mesh"));
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"));
 	ProjectileSpawnLocation = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Location"));
-
+	HealthComponent = CreateDefaultSubobject<UHealth>(TEXT("Health Component"));
+	
 	SetRootComponent(CapsuleComponent);
 	BaseMesh->SetupAttachment(CapsuleComponent);
 	TurretMesh->SetupAttachment(BaseMesh);
@@ -47,4 +49,8 @@ void ABasePawn::Fire()
 	{
 		NewProjectile->SetOwner(this);
 	}
+}
+
+void ABasePawn::HandleDestruction()
+{
 }

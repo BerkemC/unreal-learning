@@ -61,4 +61,17 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	virtual void HandleDestruction() override;
+
+	void SetPlayerEnabled(bool Enabled);
+
+	bool IsDead() const;
+
+private:
+	
+	UPROPERTY()
+	APlayerController* PlayerController;
+
+	bool IsAlive = true;
 };
