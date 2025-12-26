@@ -27,7 +27,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* TurretMesh;
-	
-	
 
+	UPROPERTY(EditAnywhere)
+	float TurretRotationSpeed = 10.0f;
+	
+	void RotateTurret (const FVector& LookAtTarget) const;
 };

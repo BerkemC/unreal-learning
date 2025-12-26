@@ -75,17 +75,3 @@ void ATank::RotateInput(const FInputActionValue& InputValue)
 		FRotator(DeltaRotationVector.X, DeltaRotationVector.Y, DeltaRotationVector.Z),
 		true);
 }
-
-void ATank::RotateTurret(const FVector& LookAtTarget) const
-{
-	const FVector TurretMeshLocationWS = TurretMesh->GetComponentLocation();
-	const FVector FromTurretToImpact = LookAtTarget - TurretMeshLocationWS;
-	const FRotator LookAtRotation = FRotator(0.0f, FromTurretToImpact.Rotation().Yaw, 0.0f);
-
-	TurretMesh->SetWorldRotation(
-		FMath::RInterpTo(
-		TurretMesh->GetComponentRotation(),
-		LookAtRotation,
-		GetWorld()->GetDeltaSeconds(),
-		TurretRotationSpeed));
-}
