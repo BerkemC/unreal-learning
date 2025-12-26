@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Projectile.h"
 #include "BasePawn.generated.h"
 
 class UCapsuleComponent;
@@ -17,8 +18,7 @@ class BATTLEBLASTER_API ABasePawn : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ABasePawn();
-
-public:
+	
 	UPROPERTY(VisibleAnywhere)
 	UCapsuleComponent* CapsuleComponent;
 
@@ -28,8 +28,16 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* TurretMesh;
 
+	UPROPERTY(VisibleAnywhere)
+	USceneComponent* ProjectileSpawnLocation;
+
 	UPROPERTY(EditAnywhere)
 	float TurretRotationSpeed = 10.0f;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AProjectile> ProjectileClass;
 	
 	void RotateTurret (const FVector& LookAtTarget) const;
+
+	void Fire();
 };

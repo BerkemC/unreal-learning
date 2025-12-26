@@ -2,6 +2,7 @@
 
 
 #include "BasePawn.h"
+
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
 
@@ -14,10 +15,12 @@ ABasePawn::ABasePawn()
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule Component"));
 	TurretMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Turret Mesh"));
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"));
+	ProjectileSpawnLocation = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Location"));
 
 	SetRootComponent(CapsuleComponent);
 	BaseMesh->SetupAttachment(CapsuleComponent);
 	TurretMesh->SetupAttachment(BaseMesh);
+	ProjectileSpawnLocation->SetupAttachment(TurretMesh);
 }
 
 void ABasePawn::RotateTurret(const FVector& LookAtTarget) const
@@ -32,4 +35,16 @@ void ABasePawn::RotateTurret(const FVector& LookAtTarget) const
 		LookAtRotation,
 		GetWorld()->GetDeltaSeconds(),
 		TurretRotationSpeed));
+}
+
+void ABasePawn::Fire()
+{
+	const FVector SpawnLocation = ProjectileSpawnLocation->GetComponentLocation();
+	const FRotator SpawnRotation = ProjectileSpawnLocation->GetComponentRotation();
+
+	if(AProjectile* NewProjectile
+			= GetWorld()->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, SpawnRotation))
+	{
+		NewProjectile->SetOwner(this);
+	}
 }

@@ -20,7 +20,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	float FireRange = 300.0f;
 	
-	ATower();
+	UPROPERTY(EditAnywhere)
+	float FireRate = 2.0f;
 	
 protected:
 	// Called when the game starts or when spawned
@@ -32,4 +33,7 @@ public:
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void CheckFireCondition();
+	bool IsPlayerPawnInRange() const;
 };

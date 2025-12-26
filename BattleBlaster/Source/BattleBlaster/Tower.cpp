@@ -5,21 +5,35 @@
 
 #include "Tank.h"
 
-ATower::ATower() : ABasePawn()
-{
-}
-
 void ATower::BeginPlay()
 {
 	Super::BeginPlay();
+
+	FTimerHandle FireTimerHandle;
+	GetWorldTimerManager().SetTimer(FireTimerHandle, this, &ATower::CheckFireCondition, FireRate, true);
 }
 
-void ATower::Tick(float DeltaTime)
+void ATower::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(Tank && FVector::Distance(GetActorLocation(), Tank->GetActorLocation()) <= FireRange)
+	if(IsPlayerPawnInRange())
 	{
 		RotateTurret(Tank->GetActorLocation());
 	}
+}
+
+void ATower::CheckFireCondition()
+{
+	if(!IsPlayerPawnInRange())
+	{
+		return;		
+	}
+	
+	Fire();
+}
+
+bool ATower::IsPlayerPawnInRange() const
+{
+	return Tank && FVector::Distance(GetActorLocation(), Tank->GetActorLocation()) <= FireRange;
 }
