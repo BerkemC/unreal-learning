@@ -42,11 +42,14 @@ public:
 	UPROPERTY(EditAnywhere)
 	float RotationSpeed = 300.0f;
 	
+	UPROPERTY(EditAnywhere)
+	float TurretRotationSpeed = 10.0f;
+	
 	ATank();
 
 	void MoveInput(const FInputActionValue& InputValue);
 	void RotateInput(const FInputActionValue& InputValue);
-	
+	void RotateTurret (const FVector& LookAtTarget) const;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

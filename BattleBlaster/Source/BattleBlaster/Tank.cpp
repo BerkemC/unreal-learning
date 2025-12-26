@@ -36,10 +36,16 @@ void ATank::BeginPlay()
 }
 
 // Called every frame
-void ATank::Tick(float DeltaTime)
+void ATank::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if(const APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	{
+		FHitResult LineTraceHit;
+		PlayerController->GetHitResultUnderCursor(ECC_Visibility, false, LineTraceHit);
+		RotateTurret(LineTraceHit.ImpactPoint);
+	}
 }
 
 // Called to bind functionality to input
@@ -68,4 +74,18 @@ void ATank::RotateInput(const FInputActionValue& InputValue)
 	AddActorLocalRotation(
 		FRotator(DeltaRotationVector.X, DeltaRotationVector.Y, DeltaRotationVector.Z),
 		true);
+}
+
+void ATank::RotateTurret(const FVector& LookAtTarget) const
+{
+	const FVector TurretMeshLocationWS = TurretMesh->GetComponentLocation();
+	const FVector FromTurretToImpact = LookAtTarget - TurretMeshLocationWS;
+	const FRotator LookAtRotation = FRotator(0.0f, FromTurretToImpact.Rotation().Yaw, 0.0f);
+
+	TurretMesh->SetWorldRotation(
+		FMath::RInterpTo(
+		TurretMesh->GetComponentRotation(),
+		LookAtRotation,
+		GetWorld()->GetDeltaSeconds(),
+		TurretRotationSpeed));
 }
