@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
-#include "BattleBlasterGamerMode.generated.h"
+#include "BasePawn.h"
+#include "Tower.generated.h"
 
 class ATank;
 
@@ -12,10 +12,16 @@ class ATank;
  * 
  */
 UCLASS()
-class BATTLEBLASTER_API ABattleBlasterGamerMode : public AGameModeBase
+class BATTLEBLASTER_API ATower : public ABasePawn
 {
 	GENERATED_BODY()
 
+public:
+	UPROPERTY(EditAnywhere)
+	float FireRange = 300.0f;
+	
+	ATower();
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -23,6 +29,7 @@ protected:
 public:
 	UPROPERTY()
 	ATank* Tank;
-
-	int32 TowerCount;
+	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 };
