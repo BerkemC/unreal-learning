@@ -7,6 +7,7 @@
 #include "BattleBlasterGamerMode.generated.h"
 
 class ATank;
+class UScreenMessage;
 
 /**
  * 
@@ -23,15 +24,28 @@ protected:
 public:
 	UPROPERTY(EditAnywhere)
 	float GameOverDelay = 3.0f;
+
+	UPROPERTY(EditAnywhere)
+	int32 LevelStartDelay = 3.0f;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UScreenMessage> ScreenMessageClass;
 	
 	UPROPERTY()
 	ATank* Tank;
 
-	int32 TowerCount;
-
 	void ActorDied(AActor* DeadActor);
 	void OnGameOverTimerTimeout();
+	void OnLevelStartTimerTimeout();
 
 private:
 	bool IsVictory = false;
+
+	int32 TowerCount;
+	int32 LevelStartSeconds;
+
+	FTimerHandle LevelStartTimer;
+
+	UPROPERTY()
+	UScreenMessage* ScreenMessageWidget;
 };
