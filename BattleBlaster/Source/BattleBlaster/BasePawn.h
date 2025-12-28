@@ -44,6 +44,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	UNiagaraSystem* DeathParticle;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UCameraShakeBase> DeathCameraShakeClass;
 	
 	void RotateTurret (const FVector& LookAtTarget) const;
 

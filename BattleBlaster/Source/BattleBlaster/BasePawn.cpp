@@ -7,6 +7,7 @@
 #include "NiagaraFunctionLibrary.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ABasePawn::ABasePawn()
@@ -61,5 +62,13 @@ void ABasePawn::HandleDestruction()
 			DeathParticle,
 			GetActorLocation(),
 			GetActorRotation());
+	}
+
+	if(DeathCameraShakeClass)
+	{
+		if(APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+		{
+			PlayerController->ClientStartCameraShake(DeathCameraShakeClass);
+		}
 	}
 }

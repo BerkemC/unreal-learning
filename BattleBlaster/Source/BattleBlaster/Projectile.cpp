@@ -80,6 +80,14 @@ void AProjectile::OnHit(
 				GetActorLocation(),
 				GetActorRotation());
 		}
+
+		if(HitCameraShakeClass)
+		{
+			if(APlayerController* Controller = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+			{
+				Controller->ClientStartCameraShake(HitCameraShakeClass);
+			}
+		}
 	}
 	
 	Destroy();

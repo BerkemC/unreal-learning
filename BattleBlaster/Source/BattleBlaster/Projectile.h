@@ -37,6 +37,9 @@ public:
 	USoundBase*  HitSound;
 
 	UPROPERTY(EditAnywhere)
+	TSubclassOf<UCameraShakeBase> HitCameraShakeClass;
+
+	UPROPERTY(EditAnywhere)
 	float Damage = 25.0f;
 	
 	// Sets default values for this actor's properties
