@@ -2,6 +2,8 @@
 
 
 #include "BattleBlasterGamerMode.h"
+
+#include "BattleBlasterGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "Tank.h"
 #include "Tower.h"
@@ -40,7 +42,6 @@ void ABattleBlasterGamerMode::ActorDied(AActor* DeadActor)
 	}
 
 	bool IsGameOver = false;
-	bool IsVictory = false;
 	
 	if(DeadActor == Tank)
 	{
@@ -80,6 +81,18 @@ void ABattleBlasterGamerMode::ActorDied(AActor* DeadActor)
 
 void ABattleBlasterGamerMode::OnGameOverTimerTimeout()
 {
-	const FName CurrentLevelName = *UGameplayStatics::GetCurrentLevelName(GetWorld());
-	UGameplayStatics::OpenLevel(GetWorld(), CurrentLevelName);
+	if(UGameInstance* Instance = GetGameInstance())
+	{
+		if(UBattleBlasterGameInstance* GameInstance = Cast<UBattleBlasterGameInstance>(Instance))
+		{
+			if(IsVictory)
+			{
+				GameInstance->LoadNextLevel();
+			}
+			else
+			{
+				GameInstance->RestartLevel();
+			}
+		}
+	}
 }

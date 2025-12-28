@@ -31,4 +31,7 @@ public:
 
 	void ActorDied(AActor* DeadActor);
 	void OnGameOverTimerTimeout();
+
+private:
+	bool IsVictory = false;
 };
