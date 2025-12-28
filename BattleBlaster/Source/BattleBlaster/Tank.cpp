@@ -88,8 +88,9 @@ void ATank::SetPlayerEnabled(const bool Enabled)
 	else
 	{
 		DisableInput(PlayerController);
-		PlayerController->bShowMouseCursor = false;
 	}
+
+	PlayerController->bShowMouseCursor = Enabled;
 }
 
 bool ATank::IsDead() const

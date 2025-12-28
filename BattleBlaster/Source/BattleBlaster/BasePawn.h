@@ -10,6 +10,7 @@
 class UHealth;
 class UCapsuleComponent;
 class UStaticMeshComponent;
+class UNiagaraSystem;
 
 UCLASS()
 class BATTLEBLASTER_API ABasePawn : public APawn
@@ -40,6 +41,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AProjectile> ProjectileClass;
+
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* DeathParticle;
 	
 	void RotateTurret (const FVector& LookAtTarget) const;
 

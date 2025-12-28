@@ -8,6 +8,8 @@
 
 class UStaticMesh;
 class UProjectileMovementComponent;
+class UNiagaraComponent;
+class UNiagaraSystem;
 
 UCLASS()
 class BATTLEBLASTER_API AProjectile : public AActor
@@ -21,6 +23,12 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	UProjectileMovementComponent* MovementComponent;
+
+	UPROPERTY(EditAnywhere)
+	UNiagaraComponent* TrailParticles;
+
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* HitParticles;
 
 	UPROPERTY(EditAnywhere)
 	float Damage = 25.0f;

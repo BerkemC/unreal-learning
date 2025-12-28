@@ -4,6 +4,7 @@
 #include "BasePawn.h"
 
 #include "Health.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
 
@@ -53,4 +54,12 @@ void ABasePawn::Fire()
 
 void ABasePawn::HandleDestruction()
 {
+	if(DeathParticle)
+	{
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+			GetWorld(),
+			DeathParticle,
+			GetActorLocation(),
+			GetActorRotation());
+	}
 }
