@@ -69,6 +69,7 @@ void AShooterSamCharacter::BeginPlay()
 				GetMesh(),
 				FAttachmentTransformRules::KeepRelativeTransform,
 				TEXT("WeaponSocket"));
+			CurrentGun->OwnerController = GetController();
 		}
 	}
 }

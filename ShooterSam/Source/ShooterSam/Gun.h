@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
 #include "Gun.generated.h"
 
 UCLASS()
@@ -17,6 +18,15 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* GunMeshComponent;
+
+	UPROPERTY(EditAnywhere)
+	float MaxRange = 10000.0f;
+
+	UPROPERTY(VisibleAnywhere)
+	class UNiagaraComponent* MuzzleFlashParticleSystem;
+	
+	UPROPERTY(EditAnywhere)
+	class UNiagaraSystem* ImpactParticleSystem; 
 	
 	// Sets default values for this actor's properties
 	AGun();
@@ -31,4 +41,6 @@ public:
 
 	void PullTrigger();
 
+	UPROPERTY()
+	AController* OwnerController;
 };
