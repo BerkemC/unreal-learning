@@ -11,6 +11,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
 struct FInputActionValue;
+class AGun;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -52,6 +53,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* ShootAction;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AGun> GunClass;
+
 public:
 
 	/** Constructor */
@@ -59,6 +63,12 @@ public:
 
 protected:
 
+	UPROPERTY()
+	AGun* CurrentGun;
+
+	/** Gameplay initialization */
+	virtual void BeginPlay() override;
+	
 	/** Initialize input action bindings */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 

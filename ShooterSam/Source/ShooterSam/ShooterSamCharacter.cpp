@@ -1,7 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "ShooterSamCharacter.h"
-#include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -11,6 +10,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "ShooterSam.h"
+#include "Gun.h"
 
 AShooterSamCharacter::AShooterSamCharacter()
 {
@@ -48,6 +48,29 @@ AShooterSamCharacter::AShooterSamCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+}
+
+void AShooterSamCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if(USkeletalMeshComponent* SMesh = GetMesh())
+	{
+		SMesh->HideBoneByName("weapon_r", PBO_None);
+	}
+		
+	if(AActor* GunActor = GetWorld()->SpawnActor(GunClass))
+	{
+		CurrentGun = Cast<AGun>(GunActor);
+		if(CurrentGun)
+		{
+			CurrentGun->SetOwner(this);
+			CurrentGun->AttachToComponent(
+				GetMesh(),
+				FAttachmentTransformRules::KeepRelativeTransform,
+				TEXT("WeaponSocket"));
+		}
+	}
 }
 
 void AShooterSamCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -94,7 +117,12 @@ void AShooterSamCharacter::Look(const FInputActionValue& Value)
 
 void AShooterSamCharacter::Shoot()
 {
-	UE_LOG(LogTemp, Display, TEXT("Shooting"));
+	if(!CurrentGun)
+	{
+		return;	
+	}
+
+	CurrentGun->PullTrigger();
 }
 
 void AShooterSamCharacter::DoMove(float Right, float Forward)
