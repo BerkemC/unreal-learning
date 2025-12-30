@@ -3,6 +3,7 @@
 
 #include "ShooterSamPlayerController.h"
 #include "EnhancedInputSubsystems.h"
+#include "HUDWidget.h"
 #include "Engine/LocalPlayer.h"
 #include "InputMappingContext.h"
 #include "Blueprint/UserWidget.h"
@@ -30,6 +31,15 @@ void AShooterSamPlayerController::BeginPlay()
 
 		}
 
+	}
+
+	if(HUDWidgetClass)
+	{
+		HUDWidget = CreateWidget<UHUDWidget>(this, HUDWidgetClass);
+		if(HUDWidget)
+		{
+			HUDWidget->AddToViewport();
+		}
 	}
 }
 

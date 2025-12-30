@@ -8,6 +8,7 @@
 
 class UInputMappingContext;
 class UUserWidget;
+class UHUDWidget;
 
 /**
  *  Basic PlayerController class for a third person game
@@ -32,9 +33,15 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Input|Touch Controls")
 	TSubclassOf<UUserWidget> MobileControlsWidgetClass;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UHUDWidget> HUDWidgetClass;
+	
 	/** Pointer to the mobile controls widget */
 	UPROPERTY()
 	TObjectPtr<UUserWidget> MobileControlsWidget;
+
+	UPROPERTY()
+	TObjectPtr<UHUDWidget> HUDWidget;
 
 	/** If true, the player will use UMG touch controls even if not playing on mobile platforms */
 	UPROPERTY(EditAnywhere, Config, Category = "Input|Touch Controls")
