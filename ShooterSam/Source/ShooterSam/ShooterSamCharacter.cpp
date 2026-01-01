@@ -50,6 +50,11 @@ AShooterSamCharacter::AShooterSamCharacter()
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
 
+bool AShooterSamCharacter::GetIsAlive() const
+{
+	return IsAlive;
+}
+
 void AShooterSamCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -72,6 +77,10 @@ void AShooterSamCharacter::BeginPlay()
 			CurrentGun->OwnerController = GetController();
 		}
 	}
+
+	OnTakeAnyDamage.AddDynamic(this, &AShooterSamCharacter::TakeDamage);
+
+	CurrentHealth = MaxHealth;
 }
 
 void AShooterSamCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -124,6 +133,33 @@ void AShooterSamCharacter::Shoot()
 	}
 
 	CurrentGun->PullTrigger();
+}
+
+void AShooterSamCharacter::TakeDamage(
+	AActor* DamagedActor,
+	float Damage,
+	const UDamageType* DamageType,
+	AController* InstigatedBy,
+	AActor* DamageCauser)
+{
+	if(!IsAlive)
+	{
+		return;
+	}
+	
+	CurrentHealth -= Damage;
+
+	if(CurrentHealth < 0.0f)
+	{
+		Die();
+	}
+}
+
+void AShooterSamCharacter::Die()
+{
+	IsAlive = false;
+	CurrentHealth = 0.0f;
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void AShooterSamCharacter::DoMove(float Right, float Forward)

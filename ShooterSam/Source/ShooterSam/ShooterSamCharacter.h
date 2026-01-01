@@ -58,14 +58,24 @@ protected:
 
 public:
 
+	UPROPERTY(EditAnywhere)
+	float MaxHealth = 100.0f;
+	
 	/** Constructor */
-	AShooterSamCharacter();	
+	AShooterSamCharacter();
 
+	UFUNCTION(BlueprintCallable)
+	bool GetIsAlive() const;
+	
 protected:
 
 	UPROPERTY()
 	AGun* CurrentGun;
 
+	float CurrentHealth;
+
+	bool IsAlive = true;
+	
 	/** Gameplay initialization */
 	virtual void BeginPlay() override;
 	
@@ -79,6 +89,16 @@ protected:
 	void Look(const FInputActionValue& Value);
 
 	void Shoot();
+
+	UFUNCTION()
+	void TakeDamage(
+		AActor* DamagedActor,
+		float Damage,
+		const UDamageType* DamageType,
+		AController* InstigatedBy,
+		AActor* DamageCauser);
+
+	void Die();
 
 public:
 

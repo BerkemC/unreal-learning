@@ -76,6 +76,16 @@ void AGun::PullTrigger()
 				Hit.ImpactPoint,
 				Hit.ImpactNormal.Rotation());
 		}
+
+		if(AActor* HitActor = Hit.GetActor())
+		{
+			UGameplayStatics::ApplyDamage(
+				HitActor,
+				Damage,
+				GetOwner()->GetInstigatorController(),
+				this,
+				UDamageType::StaticClass());
+		}
 	}
 }
 

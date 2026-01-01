@@ -28,6 +28,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UNiagaraSystem* ImpactParticleSystem; 
 	
+	UPROPERTY(EditAnywhere)
+	float Damage = 10.0f; 
+	
 	// Sets default values for this actor's properties
 	AGun();
 
