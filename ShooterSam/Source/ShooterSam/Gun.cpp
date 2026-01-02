@@ -3,9 +3,11 @@
 
 #include "Gun.h"
 
+#include "AudioDevice.h"
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 AGun::AGun()
@@ -51,6 +53,11 @@ void AGun::PullTrigger()
 	{
 		MuzzleFlashParticleSystem->Activate(true);
 	}
+
+	if(ShootSoundCue)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ShootSoundCue, GetActorLocation());
+	}
 	
 	FVector Location;
 	FRotator Rotation;
@@ -85,6 +92,11 @@ void AGun::PullTrigger()
 				GetOwner()->GetInstigatorController(),
 				this,
 				UDamageType::StaticClass());
+		}
+
+		if(ImpactSoundCue)
+		{
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSoundCue, Hit.ImpactPoint);
 		}
 	}
 }

@@ -26,7 +26,13 @@ public:
 	class UNiagaraComponent* MuzzleFlashParticleSystem;
 	
 	UPROPERTY(EditAnywhere)
-	class UNiagaraSystem* ImpactParticleSystem; 
+	class UNiagaraSystem* ImpactParticleSystem;
+
+	UPROPERTY(EditAnywhere)
+	USoundCue* ShootSoundCue;
+
+	UPROPERTY(EditAnywhere)
+	USoundCue* ImpactSoundCue;
 	
 	UPROPERTY(EditAnywhere)
 	float Damage = 10.0f; 
