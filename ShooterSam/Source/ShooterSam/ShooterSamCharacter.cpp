@@ -160,6 +160,7 @@ void AShooterSamCharacter::Die()
 	IsAlive = false;
 	CurrentHealth = 0.0f;
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	DetachFromControllerPendingDestroy();
 }
 
 void AShooterSamCharacter::DoMove(float Right, float Forward)

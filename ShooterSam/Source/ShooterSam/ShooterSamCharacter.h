@@ -68,10 +68,9 @@ public:
 	bool GetIsAlive() const;
 	
 protected:
-
 	UPROPERTY()
 	AGun* CurrentGun;
-
+	
 	float CurrentHealth;
 
 	bool IsAlive = true;
@@ -88,7 +87,7 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
-	void Shoot();
+	
 
 	UFUNCTION()
 	void TakeDamage(
@@ -102,6 +101,8 @@ protected:
 
 public:
 
+	void Shoot();
+	
 	/** Handles move inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoMove(float Right, float Forward);
