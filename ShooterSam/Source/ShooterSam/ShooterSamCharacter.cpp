@@ -11,6 +11,8 @@
 #include "InputActionValue.h"
 #include "ShooterSam.h"
 #include "Gun.h"
+#include "HUDWidget.h"
+#include "ShooterSamPlayerController.h"
 
 AShooterSamCharacter::AShooterSamCharacter()
 {
@@ -153,6 +155,8 @@ void AShooterSamCharacter::TakeDamage(
 	{
 		Die();
 	}
+
+	UpdateHUD();
 }
 
 void AShooterSamCharacter::Die()
@@ -161,6 +165,14 @@ void AShooterSamCharacter::Die()
 	CurrentHealth = 0.0f;
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	DetachFromControllerPendingDestroy();
+}
+
+void AShooterSamCharacter::UpdateHUD() const
+{
+	if(AShooterSamPlayerController* SSController = Cast<AShooterSamPlayerController>(GetController()))
+	{
+		SSController->HUDWidget->SetHealthBarPercent(CurrentHealth/MaxHealth);
+	}
 }
 
 void AShooterSamCharacter::DoMove(float Right, float Forward)

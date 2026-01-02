@@ -3,3 +3,14 @@
 
 #include "HUDWidget.h"
 
+#include "Components/ProgressBar.h"
+
+void UHUDWidget::SetHealthBarPercent(float NewValue)
+{
+	if(!HealthBar)
+	{
+		return;
+	}
+
+	HealthBar->SetPercent(FMath::Clamp(NewValue, 0, 1.0f));
+}

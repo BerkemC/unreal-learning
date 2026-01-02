@@ -40,9 +40,6 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UUserWidget> MobileControlsWidget;
 
-	UPROPERTY()
-	TObjectPtr<UHUDWidget> HUDWidget;
-
 	/** If true, the player will use UMG touch controls even if not playing on mobile platforms */
 	UPROPERTY(EditAnywhere, Config, Category = "Input|Touch Controls")
 	bool bForceTouchControls = false;
@@ -56,4 +53,7 @@ protected:
 	/** Returns true if the player should use UMG touch controls */
 	bool ShouldUseTouchControls() const;
 
+public:
+	UPROPERTY()
+	TObjectPtr<UHUDWidget> HUDWidget;
 };

@@ -99,6 +99,8 @@ protected:
 
 	void Die();
 
+	void UpdateHUD() const;
+
 public:
 
 	void Shoot();

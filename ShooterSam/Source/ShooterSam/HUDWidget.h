@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "HUDWidget.generated.h"
 
+class UProgressBar;
 /**
  * 
  */
@@ -13,5 +14,11 @@ UCLASS()
 class SHOOTERSAM_API UHUDWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+public:
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UProgressBar* HealthBar;
+
+	void SetHealthBarPercent(float NewValue);
 };
